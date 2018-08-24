@@ -4,6 +4,10 @@
 
 This is a skeleton app to demonstrate how to integrate the Waveshare EPD Demo code with Mongoose OS.
 
+<img style="float: right; padding-left: 1rem;"
+  src="assets/2.9inch-e-paper-module-b-4.jpg"
+  width="25%">
+  
 - EPD Module:
 https://www.waveshare.com/wiki/2.9inch_e-Paper_Module_(B)
 - Demo code: https://www.waveshare.com/wiki/File:2.9inch_e-paper_module_b_code.7z
