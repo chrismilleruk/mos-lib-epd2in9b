@@ -16,8 +16,11 @@
  */
 
 #include "mgos.h"
+#include "epd2in9b-demo.h"
 
 enum mgos_app_init_result mgos_app_init(void) {
-  LOG(LL_INFO, ("Hi there"));
+  LOG(LL_INFO, ("Hi there, running EPD demo"));
+  epd2in9b_demo();
+  LOG(LL_INFO, ("Demo complete!"));
   return MGOS_APP_INIT_SUCCESS;
 }

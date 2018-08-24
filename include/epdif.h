@@ -29,12 +29,13 @@
 #define EPDIF_H
 
 #include <Arduino.h>
+#include "mgos_config.h"
 
 // Pin definition
-#define RST_PIN         8
-#define DC_PIN          9
-#define CS_PIN          10
-#define BUSY_PIN        7
+#define RST_PIN         mgos_sys_config_get_epd_rst_gpio()
+#define DC_PIN          mgos_sys_config_get_epd_dc_gpio()
+#define CS_PIN          mgos_sys_config_get_epd_cs_gpio()
+#define BUSY_PIN        mgos_sys_config_get_epd_busy_gpio()
 
 class EpdIf {
 public:
