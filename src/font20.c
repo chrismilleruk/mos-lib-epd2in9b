@@ -37,7 +37,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "fonts.h"
-#include <avr/pgmspace.h>
+#ifdef __AVR__
+  #include <avr/pgmspace.h>
+#elif defined(ESP8266) || defined(ESP32)
+  #include <pgmspace.h>
+#else
+  #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#endif
 
 // Character bitmaps for Courier New 15pt
 const uint8_t Font20_Table[] PROGMEM = 

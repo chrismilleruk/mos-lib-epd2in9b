@@ -37,9 +37,15 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "fonts.h"
-#include <avr/pgmspace.h>
+#ifdef __AVR__
+  #include <avr/pgmspace.h>
+#elif defined(ESP8266) || defined(ESP32)
+  #include <pgmspace.h>
+#else
+  #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#endif
 
-const uint8_t Font24_Table [] PROGMEM = 
+const uint8_t Font24_Table [] PROGMEM =
 {
 	// @0 ' ' (17 pixels wide)
 	0x00, 0x00, 0x00, //                  

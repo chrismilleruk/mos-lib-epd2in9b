@@ -24,7 +24,13 @@
  * THE SOFTWARE.
  */
 
-#include <avr/pgmspace.h>
+#ifdef __AVR__
+ #include <avr/pgmspace.h>
+#elif defined(ESP8266) || defined(ESP32)
+ #include <pgmspace.h>
+#else
+ #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#endif
 #include "epdpaint.h"
 
 Paint::Paint(unsigned char* image, int width, int height) {

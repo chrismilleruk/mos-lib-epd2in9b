@@ -24,7 +24,13 @@
  */
 
 #include "imagedata.h"
-#include <avr/pgmspace.h>
+#ifdef __AVR__
+  #include <avr/pgmspace.h>
+#elif defined(ESP8266) || defined(ESP32)
+  #include <pgmspace.h>
+#else
+  #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#endif
 
 const unsigned char IMAGE_BLACK[] PROGMEM = { /* 0X00,0X01,0X80,0X00,0X28,0X01, */
 0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,

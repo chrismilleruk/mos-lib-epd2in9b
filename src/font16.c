@@ -37,7 +37,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "fonts.h"
-#include <avr/pgmspace.h>
+#ifdef __AVR__
+  #include <avr/pgmspace.h>
+#elif defined(ESP8266) || defined(ESP32)
+  #include <pgmspace.h>
+#else
+  #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#endif
 
 // 
 //  Font data for Courier New 12pt

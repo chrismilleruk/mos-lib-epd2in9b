@@ -2,7 +2,7 @@
  *  @filename   :   epd2in9b.h
  *  @brief      :   Header file for Dual-color e-paper library epd2in9b.cpp
  *  @author     :   Yehui from Waveshare
- *  
+ *
  *  Copyright (C) Waveshare     July 31 2017
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,6 +27,13 @@
 #ifndef EPD2IN9B_H
 #define EPD2IN9B_H
 
+#ifdef __AVR__
+  #include <avr/pgmspace.h>
+#elif defined(ESP8266) || defined(ESP32)
+  #include <pgmspace.h>
+#else
+  #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#endif
 #include "epdif.h"
 
 // Display resolution
