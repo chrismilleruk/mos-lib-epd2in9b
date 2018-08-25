@@ -41,3 +41,7 @@ libs:
 
 # Used by the mos tool to catch mos binaries incompatible with this file format
 manifest_version: 2017-09-29
+
+# Temporary, while root manifest change propagates (2018/08/25).
+libs:
+  - origin: https://github.com/mongoose-os-libs/core
