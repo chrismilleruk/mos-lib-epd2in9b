@@ -1,43 +1,16 @@
-author: chrismilleruk
+author: mongoose-os
+description: CA Bundle
 type: lib
-description: An hardware driver for the Waveshare E-paper display 2.9in (B)
 version: 1.0
 
-# Optional. List of tags for online search.
+filesystem:
+  - fs
+
 tags:
-  - c
-  - hardware
-  - display
-  - epd
-  - epaper
+  - security
 
-# List of files / directories with C sources. No slashes at the end of dir names.
-sources:
-  - src
-
-includes:
-  - include
-
-# List of dirs. Files from these dirs will be copied to the device filesystem
-# filesystem:
-#   - fs
-
-# Custom configuration entries, settable via "device configuration"
-config_schema:
-  - ["epd", "o", {title: "E-paper display settings"}]
-  - ["epd.busy_gpio", "i", 4, {title: "Busy Pin"}]
-  - ["epd.rst_gpio", "i", 16, {title: "Reset Pin"}]
-  - ["epd.dc_gpio", "i", 17, {title: "Data/Command Pin"}]
-  - ["epd.cs_gpio", "i", 5, {title: "CS Pin"}]
-  - ["spi.enable", true]
-
-libs:
-  # - origin: https://github.com/mongoose-os-libs/arduino-compat
-  # - origin: https://github.com/mongoose-os-libs/arduino-spi
-
-# Used by the mos tool to catch mos binaries incompatible with this file format
 manifest_version: 2017-09-29
 
-# Temporary, while root manifest change propagates (2018/08/25).
+# Temporary, while root manifest change propagates (2018/03/29).
 libs:
   - origin: https://github.com/mongoose-os-libs/core
