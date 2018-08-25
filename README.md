@@ -1,8 +1,8 @@
-# Mongoose OS Demo app for the Waveshare E-paper display 2.9in (B)
+# Mongoose OS Library for the Waveshare E-paper display 2.9in (B)
 
 ## Overview
 
-This is a skeleton app to demonstrate how to integrate the Waveshare EPD Demo code with Mongoose OS.
+This is a skeleton lib to demonstrate how to integrate the Waveshare EPD Demo code with Mongoose OS *as a library*.
 
 <p>
   <img style="float: right; padding-left: 1rem;"
@@ -29,14 +29,12 @@ https://www.waveshare.com/wiki/2.9inch_e-Paper_Module_(B)
 | GND | ![black](https://placehold.it/15/000/000) | GND |
 | 3.3V | ![red](https://placehold.it/15/f33/f33) | 3V3 |
 
-## How to install this app
+## How to install this lib
 
-- Install and start [mos tool](https://mongoose-os.com/software.html)
-- Switch to the Project page, find and import this app, build and flash it:
+- Add the following line to your `mos.yml` file
 
-<p align="center">
-  <img src="https://mongoose-os.com/images/app1.gif" width="75%">
-</p>
+      libs:
+        - origin: https://github.com/chrismilleruk/mos-lib-epd2in9b
 
 ## Conversion process
 
@@ -53,4 +51,8 @@ https://www.waveshare.com/wiki/2.9inch_e-Paper_Module_(B)
   - [x] Call entry point from main.cpp.
   - [x] Move hardcoded configuration to mos_config
   - [x] Set "spi.enable"=true
-  - [ ] Deal with watchdog timer.
+  - [x] Deal with watchdog timer
+- [x] Convert to library
+  - [x] Install Docker, use Local build
+  - [x] Develop lib in `deps/` folder
+  - [x] Publish

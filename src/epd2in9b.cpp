@@ -26,6 +26,7 @@
 
 #include <stdlib.h>
 #include <epd2in9b.h>
+#include "mgos_system.h"
 
 Epd::~Epd() {
 };
@@ -87,21 +88,22 @@ void Epd::SendData(unsigned char data) {
  *  @brief: Wait until the busy_pin goes HIGH
  */
 void Epd::WaitUntilIdle(void) {
+    mgos_wdt_feed();
     while(DigitalRead(busy_pin) == 0) {      //0: busy, 1: idle
         DelayMs(100);
-    }      
+    }
 }
 
 /**
- *  @brief: module reset. 
- *          often used to awaken the module in deep sleep, 
+ *  @brief: module reset.
+ *          often used to awaken the module in deep sleep,
  *          see Epd::Sleep();
  */
 void Epd::Reset(void) {
     DigitalWrite(reset_pin, LOW);
     DelayMs(200);
     DigitalWrite(reset_pin, HIGH);
-    DelayMs(200);   
+    DelayMs(200);
 }
 
 /**
@@ -112,35 +114,35 @@ void Epd::SetPartialWindow(const unsigned char* buffer_black, const unsigned cha
     SendCommand(PARTIAL_WINDOW);
     SendData(x & 0xf8);     // x should be the multiple of 8, the last 3 bit will always be ignored
     SendData(((x & 0xf8) + w  - 1) | 0x07);
-    SendData(y >> 8);        
+    SendData(y >> 8);
     SendData(y & 0xff);
-    SendData((y + l - 1) >> 8);        
+    SendData((y + l - 1) >> 8);
     SendData((y + l - 1) & 0xff);
-    SendData(0x01);         // Gates scan both inside and outside of the partial window. (default) 
+    SendData(0x01);         // Gates scan both inside and outside of the partial window. (default)
     DelayMs(2);
     SendCommand(DATA_START_TRANSMISSION_1);
     if (buffer_black != NULL) {
         for(int i = 0; i < w  / 8 * l; i++) {
-            SendData(buffer_black[i]);  
-        }  
+            SendData(buffer_black[i]);
+        }
     } else {
         for(int i = 0; i < w  / 8 * l; i++) {
-            SendData(0x00);  
-        }  
+            SendData(0x00);
+        }
     }
     DelayMs(2);
     SendCommand(DATA_START_TRANSMISSION_2);
     if (buffer_red != NULL) {
         for(int i = 0; i < w  / 8 * l; i++) {
-            SendData(buffer_red[i]);  
-        }  
+            SendData(buffer_red[i]);
+        }
     } else {
         for(int i = 0; i < w  / 8 * l; i++) {
-            SendData(0x00);  
-        }  
+            SendData(0x00);
+        }
     }
     DelayMs(2);
-    SendCommand(PARTIAL_OUT);  
+    SendCommand(PARTIAL_OUT);
 }
 
 /**
@@ -151,24 +153,24 @@ void Epd::SetPartialWindowBlack(const unsigned char* buffer_black, int x, int y,
     SendCommand(PARTIAL_WINDOW);
     SendData(x & 0xf8);     // x should be the multiple of 8, the last 3 bit will always be ignored
     SendData(((x & 0xf8) + w  - 1) | 0x07);
-    SendData(y >> 8);        
+    SendData(y >> 8);
     SendData(y & 0xff);
-    SendData((y + l - 1) >> 8);        
+    SendData((y + l - 1) >> 8);
     SendData((y + l - 1) & 0xff);
-    SendData(0x01);         // Gates scan both inside and outside of the partial window. (default) 
+    SendData(0x01);         // Gates scan both inside and outside of the partial window. (default)
     DelayMs(2);
     SendCommand(DATA_START_TRANSMISSION_1);
     if (buffer_black != NULL) {
         for(int i = 0; i < w  / 8 * l; i++) {
-            SendData(buffer_black[i]);  
-        }  
+            SendData(buffer_black[i]);
+        }
     } else {
         for(int i = 0; i < w  / 8 * l; i++) {
-            SendData(0x00);  
-        }  
+            SendData(0x00);
+        }
     }
     DelayMs(2);
-    SendCommand(PARTIAL_OUT);  
+    SendCommand(PARTIAL_OUT);
 }
 
 /**
@@ -179,24 +181,24 @@ void Epd::SetPartialWindowRed(const unsigned char* buffer_red, int x, int y, int
     SendCommand(PARTIAL_WINDOW);
     SendData(x & 0xf8);     // x should be the multiple of 8, the last 3 bit will always be ignored
     SendData(((x & 0xf8) + w  - 1) | 0x07);
-    SendData(y >> 8);        
+    SendData(y >> 8);
     SendData(y & 0xff);
-    SendData((y + l - 1) >> 8);        
+    SendData((y + l - 1) >> 8);
     SendData((y + l - 1) & 0xff);
-    SendData(0x01);         // Gates scan both inside and outside of the partial window. (default) 
+    SendData(0x01);         // Gates scan both inside and outside of the partial window. (default)
     DelayMs(2);
     SendCommand(DATA_START_TRANSMISSION_2);
     if (buffer_red != NULL) {
         for(int i = 0; i < w  / 8 * l; i++) {
-            SendData(buffer_red[i]);  
-        }  
+            SendData(buffer_red[i]);
+        }
     } else {
         for(int i = 0; i < w  / 8 * l; i++) {
-            SendData(0x00);  
-        }  
+            SendData(0x00);
+        }
     }
     DelayMs(2);
-    SendCommand(PARTIAL_OUT);  
+    SendCommand(PARTIAL_OUT);
 }
 
 /**
@@ -230,20 +232,20 @@ void Epd::ClearFrame(void) {
     SendCommand(TCON_RESOLUTION);
     SendData(width >> 8);
     SendData(width & 0xff);
-    SendData(height >> 8);        
+    SendData(height >> 8);
     SendData(height & 0xff);
 
-    SendCommand(DATA_START_TRANSMISSION_1);           
+    SendCommand(DATA_START_TRANSMISSION_1);
     DelayMs(2);
     for(int i = 0; i < width * height / 8; i++) {
-        SendData(0xFF);  
-    }  
+        SendData(0xFF);
+    }
     DelayMs(2);
-    SendCommand(DATA_START_TRANSMISSION_2);           
+    SendCommand(DATA_START_TRANSMISSION_2);
     DelayMs(2);
     for(int i = 0; i < width * height / 8; i++) {
-        SendData(0xFF);  
-    }  
+        SendData(0xFF);
+    }
     DelayMs(2);
 }
 
@@ -251,14 +253,14 @@ void Epd::ClearFrame(void) {
  * @brief: This displays the frame data from SRAM
  */
 void Epd::DisplayFrame(void) {
-    SendCommand(DISPLAY_REFRESH); 
+    SendCommand(DISPLAY_REFRESH);
     WaitUntilIdle();
 }
 
 /**
- * @brief: After this command is transmitted, the chip would enter the deep-sleep mode to save power. 
- *         The deep sleep mode would return to standby by hardware reset. The only one parameter is a 
- *         check code, the command would be executed if check code = 0xA5. 
+ * @brief: After this command is transmitted, the chip would enter the deep-sleep mode to save power.
+ *         The deep sleep mode would return to standby by hardware reset. The only one parameter is a
+ *         check code, the command would be executed if check code = 0xA5.
  *         You can use Epd::Reset() to awaken and use Epd::Init() to initialize.
  */
 void Epd::Sleep() {
@@ -268,5 +270,3 @@ void Epd::Sleep() {
 
 
 /* END OF FILE */
-
-
