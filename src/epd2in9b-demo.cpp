@@ -86,9 +86,11 @@ void epd2in9b_demo() {
 
   /* This displays the data from the SRAM in e-Paper module */
   epd.DisplayFrame();
+  epd.WaitUntilIdle();
 
   /* This displays an image */
   epd.DisplayFrame(IMAGE_BLACK, IMAGE_RED);
+  epd.WaitUntilIdle();
 
   /* Deep sleep */
   epd.Sleep();

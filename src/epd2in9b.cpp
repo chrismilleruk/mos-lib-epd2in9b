@@ -68,6 +68,11 @@ int Epd::Init(void) {
 
 }
 
+int IsBusy(void) {
+  int idle = DigitalRead(busy_pin)  //0: busy, 1: idle
+  return !idle;
+}
+
 /**
  *  @brief: basic function for sending commands
  */
@@ -222,7 +227,7 @@ void Epd::DisplayFrame(const unsigned char* frame_buffer_black, const unsigned c
         DelayMs(2);
     }
     SendCommand(DISPLAY_REFRESH);
-    WaitUntilIdle();
+    // WaitUntilIdle();
 }
 
 /**
@@ -254,7 +259,7 @@ void Epd::ClearFrame(void) {
  */
 void Epd::DisplayFrame(void) {
     SendCommand(DISPLAY_REFRESH);
-    WaitUntilIdle();
+    // WaitUntilIdle();
 }
 
 /**

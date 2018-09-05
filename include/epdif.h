@@ -30,6 +30,7 @@
 
 #include <Arduino.h>
 #include "mgos_config.h"
+#include "mgos_event.h"
 
 // Pin definition
 #define RST_PIN         mgos_sys_config_get_epd_rst_gpio()
@@ -47,6 +48,30 @@ public:
     static int  DigitalRead(int pin);
     static void DelayMs(unsigned int delaytime);
     static void SpiTransfer(unsigned char data);
+    // static void WaitUntilIdle(void);
+};
+
+/*
+ * These events are registered by the MGOS core.
+ * Other events could be registered by the external libraries.
+ */
+#define MGOS_EVENT_EPD MGOS_EVENT_BASE('E', 'P', 'D')
+
+/*
+ * System mos events
+ */
+enum mgos_event_epd {
+  /*
+   * Fired when the EPD starts the render cycle (upto 15 secs)
+   * ev_data: NULL
+   */
+  MGOS_EVENT_BUSY = MGOS_EVENT_EPD,
+
+  /*
+   * Fired when the EPD has finished rendering.
+   * ev_data: NULL
+   */
+  MGOS_EVENT_IDLE
 };
 
 #endif

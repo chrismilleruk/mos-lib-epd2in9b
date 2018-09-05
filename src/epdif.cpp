@@ -27,6 +27,11 @@
 
 #include "epdif.h"
 #include <SPI.h>
+#include "mgos_system.h"
+#include "mgos_event.h"
+#include "mgos_gpio.h"
+
+
 
 EpdIf::EpdIf() {
 };
@@ -52,6 +57,16 @@ void EpdIf::SpiTransfer(unsigned char data) {
     digitalWrite(CS_PIN, HIGH);
 }
 
+void handle_busy_int(int pin, void *arg) {
+  if (pin != BUSY_PIN) return;
+  int busy = digitalRead(BUSY_PIN);
+  if (busy) {
+    mgos_event_trigger(MGOS_EVENT_BUSY, NULL);
+  } else {
+    mgos_event_trigger(MGOS_EVENT_IDLE, NULL);
+  }
+}
+
 int EpdIf::IfInit(void) {
     pinMode(CS_PIN, OUTPUT);
     pinMode(RST_PIN, OUTPUT);
@@ -59,6 +74,11 @@ int EpdIf::IfInit(void) {
     pinMode(BUSY_PIN, INPUT); 
     SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
     SPI.begin();
+
+    mgos_event_register_base(MGOS_EVENT_EPD, "E-Paper Display");
+    mgos_gpio_set_int_handler(BUSY_PIN, MGOS_GPIO_INT_EDGE_ANY,
+                               handle_busy_int, NULL);
+    mgos_gpio_enable_int(BUSY_PIN);
     return 0;
 }
 
