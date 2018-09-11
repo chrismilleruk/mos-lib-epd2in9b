@@ -65,13 +65,14 @@ void handle_busy_int(int pin, void *arg) {
   } else {
     mgos_event_trigger(MGOS_EVENT_IDLE, NULL);
   }
+  (void)arg;
 }
 
 int EpdIf::IfInit(void) {
     pinMode(CS_PIN, OUTPUT);
     pinMode(RST_PIN, OUTPUT);
     pinMode(DC_PIN, OUTPUT);
-    pinMode(BUSY_PIN, INPUT); 
+    pinMode(BUSY_PIN, INPUT);
     SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
     SPI.begin();
 
@@ -81,4 +82,3 @@ int EpdIf::IfInit(void) {
     mgos_gpio_enable_int(BUSY_PIN);
     return 0;
 }
-
